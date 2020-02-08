@@ -1,0 +1,15 @@
+{
+  "name": "ogish",
+  "version": "0.1.0",
+  "description": "Proxy server for ogimpact API calls",
+  "main": "server.js",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "author": "",
+  "license": "MIT",
+  "dependencies": {
+    "koa": "^2.11.0",
+    "saasify-faas-proxy": "^1.15.0"
+  }
+}
