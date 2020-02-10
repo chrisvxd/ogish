@@ -10,6 +10,6 @@
   "license": "MIT",
   "dependencies": {
     "koa": "^2.11.0",
-    "saasify-faas-proxy": "^1.15.0"
+    "saasify-faas-proxy": "^1.15.5"
   }
 }
