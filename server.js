@@ -1,5 +1,6 @@
 const Koa = require('koa');
 const proxy = require('saasify-faas-proxy');
+const qs = require('qs');
 
 const app = new Koa();
 
@@ -23,13 +24,17 @@ app.use(
       const [_, api, template] = path.split('/');
       const pathIsApi = apis[api];
 
+      const searchObj = qs.parse(search.replace('?', ''));
+
+      const params = {};
+
       if (template && (api === 'image' || api === 'preview' || path === '/')) {
-        return `${search}&template=${template}`;
+        params.template = template;
       } else if (api && !pathIsApi) {
-        return `${search}&template=${api}`;
+        params.template = api;
       }
 
-      return search;
+      return '?' + qs.stringify({ ...searchObj, ...params });
     },
   })
 );
