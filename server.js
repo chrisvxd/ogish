@@ -4,7 +4,9 @@ const qs = require('qs');
 
 const app = new Koa();
 
-const apis = ['image', 'preview', 'publish'];
+const apis = ['image', 'preview', 'publish', 'url', 's'];
+
+const baseUrl = 'chrisvxd/og-impact';
 
 app.use(
   proxy({
@@ -12,12 +14,14 @@ app.use(
       const [_, api, id] = path.split('/');
 
       if (api === 'image' || !id) {
-        return `chrisvxd/og-impact/image`;
+        return `${baseUrl}/image`;
       } else if (api === 'preview') {
-        return `chrisvxd/og-impact/preview`;
+        return `${baseUrl}/preview`;
+      } else if (api === 'url' || api === 's') {
+        return `${baseUrl}/url`;
       }
 
-      return `chrisvxd/og-impact${path}`;
+      return `${baseUrl}${path}`;
     },
     getParams: ({ path, search }) => {
       const [_, api, id] = path.split('/');
@@ -28,6 +32,8 @@ app.use(
 
       if (api === 'image' || api === 'preview' || path === '/') {
         params.template = id;
+      } else if (api === 'url' || api === 's') {
+        params.id = id;
       } else if (!apis[api]) {
         params.template = api; // If `api` is not an API, assume it's a template ID
       }
