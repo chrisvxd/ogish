@@ -30,7 +30,7 @@ app.use(
       }
 
       return search;
-    }
+    },
   })
 );
 
