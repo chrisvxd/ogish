@@ -4,34 +4,32 @@ const qs = require('qs');
 
 const app = new Koa();
 
-const apis = { image: true, preview: true, unwatermark: true, publish: true };
+const apis = ['image', 'preview', 'publish'];
 
 app.use(
   proxy({
     getPath: ({ path }) => {
-      const [_, api, template] = path.split('/');
-      const pathIsApi = apis[api];
+      const [_, api, id] = path.split('/');
 
-      if (template) {
-        return `chrisvxd/og-impact/${api}`;
-      } else if (!pathIsApi || path === '/') {
-        return 'chrisvxd/og-impact/image';
+      if (api === 'image' || !id) {
+        return `chrisvxd/og-impact/image`;
+      } else if (api === 'preview') {
+        return `chrisvxd/og-impact/preview`;
       }
 
       return `chrisvxd/og-impact${path}`;
     },
     getParams: ({ path, search }) => {
-      const [_, api, template] = path.split('/');
-      const pathIsApi = apis[api];
+      const [_, api, id] = path.split('/');
 
       const searchObj = qs.parse(search.replace('?', ''));
 
       const params = {};
 
-      if (template && (api === 'image' || api === 'preview' || path === '/')) {
-        params.template = template;
-      } else if (api && !pathIsApi) {
-        params.template = api;
+      if (api === 'image' || api === 'preview' || path === '/') {
+        params.template = id;
+      } else if (!apis[api]) {
+        params.template = api; // If `api` is not an API, assume it's a template ID
       }
 
       return '?' + qs.stringify({ ...searchObj, ...params });
