@@ -38,7 +38,7 @@ app.use(
         params.template = api; // If `api` is not an API, assume it's a template ID
       }
 
-      return '?' + qs.stringify({ ...searchObj, ...params });
+      return '?' + qs.stringify({ ...params, ...searchObj });
     },
   })
 );
