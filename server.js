@@ -10,18 +10,19 @@ const baseUrl = 'chrisvxd/og-impact';
 
 app.use(
   proxy({
+    faasUrl: process.env.FAAS_URL,
     getPath: ({ path }) => {
       const [_, api, id] = path.split('/');
 
       if (api === 'image' || !id) {
-        return `${baseUrl}/image`;
+        return `image`;
       } else if (api === 'preview') {
-        return `${baseUrl}/preview`;
+        return `preview`;
       } else if (api === 'url' || api === 's') {
-        return `${baseUrl}/url`;
+        return `url`;
       }
 
-      return `${baseUrl}${path}`;
+      return `${path}`;
     },
     getParams: ({ path, search }) => {
       const [_, api, id] = path.split('/');
